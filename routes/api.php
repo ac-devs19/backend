@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dashboard/get-user-count', [DashboardController::class, 'getUserCount']);
     Route::get('/dashboard/get-record-count', [DashboardController::class, 'getRecordCount']);
     Route::get('/dashboard/get-request-count', [DashboardController::class, 'getRequestCount']);
+    Route::get('/dashboard/get-student-request-count', [DashboardController::class, 'getStudentRequestCount']);
     Route::get('/dashboard/get-paid-count', [DashboardController::class, 'getPaidCount']);
     Route::get('/dashboard/get-sales-count', [DashboardController::class, 'getSalesCount']);
 

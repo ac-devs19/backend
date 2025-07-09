@@ -26,10 +26,13 @@ class AuthController extends Controller
                 'password' => ['required'],
             ]);
 
-            $user = User::whereHas('staff.information', function ($query) use ($request) {
-                $query->where('email_address', $request->staff_email_address);
-            })
-                ->first();
+            $user = User::where(function ($query) use ($request) {
+                $query->whereHas('staff.information', function ($q) use ($request) {
+                    $q->where('email_address', $request->staff_email_address);
+                })->orWhereHas('student.information', function ($q) use ($request) {
+                    $q->where('email_address', $request->staff_email_address);
+                });
+            })->first();
 
             if (!$user || !Hash::check($request->password, $user->password)) {
                 throw ValidationException::withMessages([
@@ -37,7 +40,7 @@ class AuthController extends Controller
                 ]);
             }
 
-            $staff = $user->staff->where('user_id', $user->id)
+            $staff = $user?->staff?->where('user_id', $user->id)
                 ->where('staff_status', 'inactive')
                 ->first();
 

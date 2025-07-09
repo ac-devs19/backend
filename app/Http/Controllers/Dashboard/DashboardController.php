@@ -79,6 +79,28 @@ class DashboardController extends Controller
         return response()->json(array_values($monthlyData));
     }
 
+    public function getStudentRequestCount(Request $request)
+    {
+        $user = $request->user();
+
+        $student = Student::where('user_id', $user->id)->first();
+
+        $monthlyCounts = \App\Models\Request::select(DB::raw('MONTH(updated_at) as month'), DB::raw('COUNT(*) as count'))
+            ->where('student_id', $student->id)
+            ->where('request_status', 'complete')
+            ->whereYear('updated_at', $request->year)
+            ->groupBy(DB::raw('MONTH(updated_at)'))
+            ->orderBy(DB::raw('MONTH(updated_at)'))
+            ->pluck('count', 'month');
+
+        $monthlyData = array_fill(1, 12, 0);
+        foreach ($monthlyCounts as $month => $count) {
+            $monthlyData[$month] = $count;
+        }
+
+        return response()->json(array_values($monthlyData));
+    }
+
     public function getPaidCount()
     {
         $paid = Payment::count();
