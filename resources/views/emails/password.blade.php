@@ -71,7 +71,7 @@
 <body>
   <div class="wrapper">
     <div class="bg-logo">
-      <img class="logo" src="https://occ.edu.ph/wp-content/uploads/2020/12/OCC_LOGO-300x300.png" alt="occ_logo" />
+      <img class="logo" src="https://enroll.occph.com/build/assets/OCC_LOGO-BWCM4zrL.png" alt="occ_logo" />
       <h1>Office of Registrar</h1>
     </div>
     <div class="text">
